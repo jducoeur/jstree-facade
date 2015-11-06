@@ -13,9 +13,9 @@ version := "0.1-SNAPSHOT"
 
 organization := "org.querki"
 
-scalaVersion := "2.11.6"
+scalaVersion := "2.11.7"
 
-crossScalaVersions := Seq("2.10.4", "2.11.5")
+crossScalaVersions := Seq("2.10.4", "2.11.7")
 
 libraryDependencies ++= Seq(
   "org.querki" %%% "querki-jsext" % "0.5",

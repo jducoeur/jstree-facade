@@ -1,6 +1,7 @@
 package org.querki.facades.jstree
 
 import scala.scalajs.js
+import js.annotation.JSName
 import js.JSConverters._
 import js.|
 import org.scalajs.dom
@@ -10,15 +11,17 @@ import org.querki.jsext._
 /**
  * @author jducoeur
  */
+@js.native
 trait JsTree extends js.Object {
+  @JSName("jstree")
   def jsTree(options:JsTreeOptions):Any = js.native
 }
 
+@js.native
 trait JsTreeOptions extends js.Object 
 object JsTreeOptions extends JsTreeOptionBuilder(noOpts)
 class JsTreeOptionBuilder(val dict:OptMap) extends JSOptionBuilder[JsTreeOptions, JsTreeOptionBuilder](new JsTreeOptionBuilder(_)) 
 {
-  
   /**
    * The core options.
    */
@@ -30,6 +33,7 @@ class JsTreeOptionBuilder(val dict:OptMap) extends JSOptionBuilder[JsTreeOptions
   def plugins(v:Seq[JsTreePlugin]) = jsOpt("plugins", v.map(_.name).toJSArray)
 }
 
+@js.native
 trait JsTreeCore extends js.Object 
 object JsTreeCore extends JsTreeCoreBuilder(noOpts)
 class JsTreeCoreBuilder(val dict:OptMap) extends JSOptionBuilder[JsTreeCore, JsTreeCoreBuilder](new JsTreeCoreBuilder(_))
@@ -64,8 +68,18 @@ class JsTreeCoreBuilder(val dict:OptMap) extends JSOptionBuilder[JsTreeCore, JsT
    * A boolean indicating if multiple nodes can be selected
    */
   def multiple(v:Boolean) = jsOpt("multiple", v)
+  
+  /**
+   * Theme information -- how to actually display the tree.
+   * 
+   * IMPORTANT: you need to specify the theme information somehow! In practice, this currently means that
+   * your HTML file needs to include the CSS theme that you want to use. This kinda sucks: what we really
+   * want is an sbt-level way to incorporate the CSS dependency into your app.
+   */
+  def themes(v:JsTreeTheme) = jsOpt("themes", v)
 }
 
+@js.native
 trait JsTreeNode extends js.Object 
 object JsTreeNode extends JsTreeNodeBuilder(noOpts)
 class JsTreeNodeBuilder(val dict:OptMap) extends JSOptionBuilder[JsTreeNode, JsTreeNodeBuilder](new JsTreeNodeBuilder(_)) 
@@ -120,6 +134,7 @@ class JsTreeNodeBuilder(val dict:OptMap) extends JSOptionBuilder[JsTreeNode, JsT
   def tpe(v:String) = jsOpt("type", v)
 }
 
+@js.native
 trait JsTreeTheme extends js.Object 
 object JsTreeTheme extends JsTreeThemeBuilder(noOpts)
 class JsTreeThemeBuilder(val dict:OptMap) extends JSOptionBuilder[JsTreeTheme, JsTreeThemeBuilder](new JsTreeThemeBuilder(_)) 
@@ -166,6 +181,7 @@ class JsTreeThemeBuilder(val dict:OptMap) extends JSOptionBuilder[JsTreeTheme, J
   def variant(v:String | Boolean) = jsOpt("variant", v)
 }
 
+@js.native
 trait JsTreeCheckbox extends js.Object 
 object JsTreeCheckbox extends JsTreeCheckboxBuilder(noOpts)
 class JsTreeCheckboxBuilder(val dict:OptMap) extends JSOptionBuilder[JsTreeCheckbox, JsTreeCheckboxBuilder](new JsTreeCheckboxBuilder(_))
