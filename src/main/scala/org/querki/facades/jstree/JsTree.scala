@@ -120,10 +120,10 @@ class JsTreeCoreBuilder(val dict:OptMap) extends JSOptionBuilder[JsTreeCore, JsT
   def data(v:JQueryAjaxSettings) = jsOpt("data", v)
   
   /**
-   * Function that will be called to define a node to be rendered. "this" is the node to render; the second
-   * parameter is the callback to call with the rendered data. (Is this signature correct? Needs testing.)
+   * Function that will be called to define a node to be rendered. This gets called with the
+   * node that is being rendered, and a callback to pass in its children.
    */
-  def data(func:js.ThisFunction1[js.Object, js.Function2[js.Object, js.Array[JsTreeNode], Any], Any]) = jsOpt("data", func)
+  def data(func:js.Function2[js.Object, js.Function1[js.Array[JsTreeNode], Any], Any]) = jsOpt("data", func)
   
   /**
    * Force node text to plain text (and escape HTML). Defaults to false
@@ -143,6 +143,12 @@ class JsTreeCoreBuilder(val dict:OptMap) extends JSOptionBuilder[JsTreeCore, JsT
    * want is an sbt-level way to incorporate the CSS dependency into your app.
    */
   def themes(v:JsTreeTheme) = jsOpt("themes", v)
+  
+  /**
+   * If left as true web workers will be used to parse incoming JSON data where possible, so that the UI will 
+   * not be blocked by large requests. Workers are however about 30% slower. Defaults to true
+   */
+  def worker(v:Boolean) = jsOpt("worker", v)
 }
 
 /*
@@ -207,6 +213,10 @@ class JsTreeNode extends js.Object
 
 @js.native
 trait JsTreeNode extends js.Object 
+{
+  val data:Any = js.native
+  val id:UndefOr[String] = js.native
+}
 object JsTreeNode extends JsTreeNodeBuilder(noOpts)
 class JsTreeNodeBuilder(val dict:OptMap) extends JSOptionBuilder[JsTreeNode, JsTreeNodeBuilder](new JsTreeNodeBuilder(_)) 
 {
@@ -219,6 +229,12 @@ class JsTreeNodeBuilder(val dict:OptMap) extends JSOptionBuilder[JsTreeNode, JsT
    * The child nodes to display under this one.
    */
   def children(v:Seq[JsTreeNode]) = jsOpt("children", v.toJSArray)
+  
+  /**
+   * Iff you set children to true, and define a callback function in core.data, it means that
+   * this node *has* children, and the callback should be used to fetch them. Defaults to false.
+   */
+  def children(v:Boolean) = jsOpt("children", v)
   
   /**
    * This can be anything you want - it is metadata you want attached to the node - you will 
@@ -247,10 +263,10 @@ class JsTreeNodeBuilder(val dict:OptMap) extends JSOptionBuilder[JsTreeNode, JsT
   /**
    * Options describing the state of the node, drawn from NodeState.
    */
-  def state(vs:NodeState*) = jsOpt("state", vs.map(s => js.Dynamic.literal(s.name -> s.set)).toJSArray)
+  def state(vs:NodeState*) = jsOpt("state", ((Map.empty[String, Boolean] /: vs) { (map, v) => map + (v.name -> v.set) }).toJSDictionary)
   
   /**
-   * The text to display for this node. Required.
+   * The text to display for this node. Required. May include HTML if force_text is not turned on.
    */
   def text(v:String) = jsOpt("text", v)
   
