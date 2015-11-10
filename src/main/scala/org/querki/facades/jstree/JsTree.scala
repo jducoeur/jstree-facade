@@ -243,6 +243,11 @@ class JsTreeNodeBuilder(val dict:OptMap) extends JSOptionBuilder[JsTreeNode, JsT
   def data(v:Any) = jsOpt("data", v)
   
   /**
+   * If set to false, turns off showing an icon for this node.
+   */
+  def icon(v:Boolean) = jsOpt("icon", v)
+  
+  /**
    * A string which will be used for the node's icon - this can either be a path to a file, or a 
    * className (or list of classNames), which you can style in your CSS (font icons also work).
    */
