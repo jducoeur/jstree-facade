@@ -12,7 +12,7 @@ import org.querki.jsext._
  * @author jducoeur
  */
 @js.native
-trait JsTree extends js.Object {
+trait JsTree extends JQuery {
   @JSName("jstree")
   def jsTree():JsTree = js.native
   
