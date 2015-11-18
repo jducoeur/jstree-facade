@@ -9,7 +9,7 @@ name := "jsTree Facade"
 
 normalizedName := "jstree-facade"
 
-version := "0.1"
+version := "0.2-SNAPSHOT"
 
 organization := "org.querki"
 
