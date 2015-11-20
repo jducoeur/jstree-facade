@@ -52,6 +52,20 @@ class JsTreeCommands(val tree:JsTree) extends AnyVal {
   def getSelectedIds:js.Array[String] = cmd("get_selected", false).asInstanceOf[js.Array[String]]
 }
 
+/**
+ * The events available for JsTree. Note that these are highly reduced to most-commonly-useful forms.
+ * In principle, we probably ought to also include versions with wider signatures, to be more general.
+ */
+class JsTreeEvents(val tree:JsTree) extends AnyVal {
+  def onSelectNode(cb:JsTreeNode => Any):JsTree = {
+    tree.on("select_node.jstree", { (selected:dom.Element, evt:JQueryEventObject, data:Any) =>
+      val selectedNode = data.asInstanceOf[js.Dynamic].node.asInstanceOf[JsTreeNode]
+      cb(selectedNode)
+    })
+    tree
+  }
+}
+
 @js.native
 trait JsTreeOptions extends js.Object 
 object JsTreeOptions extends JsTreeOptionBuilder(noOpts)
@@ -65,7 +79,7 @@ class JsTreeOptionBuilder(val dict:OptMap) extends JSOptionBuilder[JsTreeOptions
   /**
    * Which plugins are active for this tree.
    */
-  def plugins(v:Seq[JsTreePlugin]) = jsOpt("plugins", v.map(_.name).toJSArray)
+  def plugins(v:JsTreePlugin*) = jsOpt("plugins", v.map(_.name).toJSArray)
 
   /**
    * Details about the checkbox functions, if you've enabled the checkbox plugin.
@@ -97,7 +111,7 @@ class JsTreeCoreBuilder(val dict:OptMap) extends JSOptionBuilder[JsTreeCore, JsT
    * Function that will be called to define a node to be rendered. This gets called with the
    * node that is being rendered, and a callback to pass in its children.
    */
-  def data(func:js.Function2[js.Object, js.Function1[js.Array[JsTreeNode], Any], Any]) = jsOpt("data", func)
+  def data(func:js.Function2[JsTreeNode, js.Function1[js.Array[JsTreeNode], Any], Any]) = jsOpt("data", func)
   
   /**
    * Force node text to plain text (and escape HTML). Defaults to false
