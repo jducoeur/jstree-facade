@@ -57,6 +57,10 @@ class JsTreeCommands(val tree:JsTree) extends AnyVal {
  * In principle, we probably ought to also include versions with wider signatures, to be more general.
  */
 class JsTreeEvents(val tree:JsTree) extends AnyVal {
+  /**
+   * Fires whenever the user selects a node. You can intercept this if you need to, eg, navigate instead
+   * of selecting.
+   */
   def onSelectNode(cb:JsTreeNode => Any):JsTree = {
     tree.on("select_node.jstree", { (selected:dom.Element, evt:JQueryEventObject, data:Any) =>
       val selectedNode = data.asInstanceOf[js.Dynamic].node.asInstanceOf[JsTreeNode]
