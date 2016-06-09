@@ -1,7 +1,3 @@
-import SonatypeKeys._
-
-sonatypeSettings
-
 lazy val root = project.in(file(".")).
   enablePlugins(ScalaJSPlugin)
 
@@ -9,18 +5,18 @@ name := "jsTree Facade"
 
 normalizedName := "jstree-facade"
 
-version := "0.2"
+version := "0.3"
 
 organization := "org.querki"
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.11.8"
 
-crossScalaVersions := Seq("2.10.4", "2.11.7")
+crossScalaVersions := Seq("2.10.5", "2.11.8")
 
 libraryDependencies ++= Seq(
-  "org.querki" %%% "querki-jsext" % "0.6",
-  "org.scala-js" %%% "scalajs-dom" % "0.8.0",
-  "org.querki" %%% "jquery-facade" % "0.10"
+  "org.querki" %%% "querki-jsext" % "0.7",
+  "org.scala-js" %%% "scalajs-dom" % "0.9.0",
+  "org.querki" %%% "jquery-facade" % "1.0-RC5"
 )
 
 jsDependencies += "org.webjars" % "jstree" % "3.2.1" / "jstree.js" minified "jstree.min.js"
