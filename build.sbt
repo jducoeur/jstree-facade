@@ -5,7 +5,7 @@ name := "jsTree Facade"
 
 normalizedName := "jstree-facade"
 
-version := "0.3"
+version := "0.4"
 
 organization := "org.querki"
 
@@ -16,7 +16,7 @@ crossScalaVersions := Seq("2.10.5", "2.11.8")
 libraryDependencies ++= Seq(
   "org.querki" %%% "querki-jsext" % "0.7",
   "org.scala-js" %%% "scalajs-dom" % "0.9.0",
-  "org.querki" %%% "jquery-facade" % "1.0-RC5"
+  "org.querki" %%% "jquery-facade" % "1.0-RC6"
 )
 
 jsDependencies += "org.webjars" % "jstree" % "3.2.1" / "jstree.js" minified "jstree.min.js"
