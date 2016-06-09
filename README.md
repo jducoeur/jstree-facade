@@ -5,7 +5,7 @@ A Scala.js facade for the jsTree jQuery library
 
 To use jstree-facade, add this line to your libraryDependencies:
 ```
-"org.querki" %%% "jstree-facade" % "0.1"
+"org.querki" %%% "jstree-facade" % "0.3"
 ```
 This will include the .js file into your -jsdeps.js, and the minimized version into your -jsdeps.min.js in FullOpt builds.
 
